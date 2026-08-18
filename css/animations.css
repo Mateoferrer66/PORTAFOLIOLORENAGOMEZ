@@ -1,0 +1,443 @@
+/* ============================================================
+   ANIMATIONS CSS — Lorena Gómez Premium Portfolio
+   Cinematographic animations & transitions
+   ============================================================ */
+
+/* ── Preloader ─────────────────────────────────── */
+@keyframes preloaderSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes preloaderPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+@keyframes preloaderFadeOut {
+    0% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes preloaderProgress {
+    0% { width: 0%; }
+    20% { width: 20%; }
+    50% { width: 55%; }
+    80% { width: 80%; }
+    100% { width: 100%; }
+}
+
+/* ── Typewriter ────────────────────────────────── */
+@keyframes typewriterCursor {
+    0%, 100% { border-right-color: var(--primary); }
+    50% { border-right-color: transparent; }
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* ── Gradient Animation ────────────────────────── */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientText {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ── Float & Hover ─────────────────────────────── */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(1deg); }
+    50% { transform: translateY(-8px) rotate(-1deg); }
+    75% { transform: translateY(-20px) rotate(0.5deg); }
+}
+
+@keyframes floatSlow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -30px) scale(1.05); }
+    50% { transform: translate(-10px, -15px) scale(0.98); }
+    75% { transform: translate(15px, -25px) scale(1.02); }
+}
+
+@keyframes floatDelayed {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+}
+
+/* ── Blob Morphing ─────────────────────────────── */
+@keyframes blobMorph {
+    0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    25% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        transform: translate(30px, -50px) rotate(90deg) scale(1.1);
+    }
+    50% {
+        border-radius: 50% 60% 30% 60% / 30% 50% 70% 60%;
+        transform: translate(-20px, 20px) rotate(180deg) scale(0.95);
+    }
+    75% {
+        border-radius: 40% 60% 50% 40% / 60% 40% 60% 50%;
+        transform: translate(10px, -30px) rotate(270deg) scale(1.05);
+    }
+}
+
+/* ── Glow Pulse ────────────────────────────────── */
+@keyframes glowPulse {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.3),
+                    0 0 40px rgba(139, 92, 246, 0.1);
+    }
+    50% { 
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.5),
+                    0 0 60px rgba(139, 92, 246, 0.2),
+                    0 0 80px rgba(139, 92, 246, 0.1);
+    }
+}
+
+@keyframes borderGlow {
+    0%, 100% { border-color: rgba(139, 92, 246, 0.3); }
+    50% { border-color: rgba(139, 92, 246, 0.8); }
+}
+
+@keyframes neonPulse {
+    0%, 100% { 
+        text-shadow: 0 0 7px rgba(139,92,246,0.6),
+                     0 0 10px rgba(139,92,246,0.4),
+                     0 0 21px rgba(139,92,246,0.2);
+    }
+    50% { 
+        text-shadow: 0 0 10px rgba(139,92,246,0.8),
+                     0 0 20px rgba(139,92,246,0.6),
+                     0 0 42px rgba(139,92,246,0.4),
+                     0 0 82px rgba(139,92,246,0.2);
+    }
+}
+
+/* ── Slide In Animations ───────────────────────── */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Scale Animations ──────────────────────────── */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomInRotate {
+    from {
+        opacity: 0;
+        transform: scale(0.6) rotate(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ── Flip Animation ────────────────────────────── */
+@keyframes flipInX {
+    from {
+        opacity: 0;
+        transform: perspective(800px) rotateX(90deg);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(800px) rotateX(0deg);
+    }
+}
+
+@keyframes flipInY {
+    from {
+        opacity: 0;
+        transform: perspective(800px) rotateY(90deg);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(800px) rotateY(0deg);
+    }
+}
+
+/* ── Pulse & Bounce ────────────────────────────── */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-8px); }
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1.08); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* ── WhatsApp Button ───────────────────────────── */
+@keyframes whatsappPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 18px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+/* ── Chatbot ───────────────────────────────────── */
+@keyframes chatBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes typingDot {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Progress Bar Fill ─────────────────────────── */
+@keyframes progressFill {
+    from { width: 0%; }
+    to { width: var(--progress-width, 0%); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ── Rotate ────────────────────────────────────── */
+@keyframes rotate360 {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes rotateY360 {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* ── Fade ──────────────────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Line Draw ─────────────────────────────────── */
+@keyframes drawLine {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes drawLineVertical {
+    from { height: 0; }
+    to { height: 100%; }
+}
+
+/* ── Counter ───────────────────────────────────── */
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Ripple Effect ─────────────────────────────── */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ── Marquee ───────────────────────────────────── */
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ── Scroll Indicator ──────────────────────────── */
+@keyframes scrollDown {
+    0% { opacity: 1; transform: translateY(0); }
+    75% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 0; transform: translateY(20px); }
+}
+
+/* ── Star Twinkle ──────────────────────────────── */
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ── Reveal Classes (used by IntersectionObserver) */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.reveal-rotate {
+    opacity: 0;
+    transform: perspective(800px) rotateY(15deg) translateX(-30px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-rotate.active {
+    opacity: 1;
+    transform: perspective(800px) rotateY(0deg) translateX(0);
+}
+
+/* Stagger delays for children */
+.stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { transition-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { transition-delay: 0.4s; }
+.stagger-children > *:nth-child(9) { transition-delay: 0.45s; }
+.stagger-children > *:nth-child(10) { transition-delay: 0.5s; }
+
+/* ── Reduced Motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
