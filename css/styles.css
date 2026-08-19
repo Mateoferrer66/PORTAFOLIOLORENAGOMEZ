@@ -2445,6 +2445,7 @@ input, textarea {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 15px;
     }
 
     .btn-primary, .btn-secondary {
@@ -2458,7 +2459,75 @@ input, textarea {
 
     .filter-buttons {
         flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .contact-item {
+        flex-direction: column;
         align-items: center;
+        text-align: center;
+    }
+    
+    .contact-item-icon {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    /* iPhone SE and smaller */
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .about-image-wrapper {
+        width: 220px;
+        height: 280px;
+    }
+    
+    .about-floating-badge {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .timeline-dot {
+        width: 12px;
+        height: 12px;
+        left: 14px;
+    }
+    
+    .timeline::before {
+        left: 20px;
+    }
+    
+    .timeline-item .timeline-content,
+    .timeline-item:nth-child(odd) .timeline-content {
+        width: calc(100% - 40px);
+        margin-left: 40px;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+    /* iPad Pro and standard tablets landscape */
+    .container {
+        padding: 0 40px;
+    }
+    
+    .about-grid {
+        gap: 40px;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
     }
 }
 
