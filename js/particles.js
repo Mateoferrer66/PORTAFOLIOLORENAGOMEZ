@@ -1,28 +1,22 @@
 /* ============================================================
-   3D SPECTRUM MESH BACKGROUND (Futuristic / Premium)
-   Highly optimized canvas animation
+   HOLOGRAPHIC PLEXUS BACKGROUND (Premium / Top)
+   Highly optimized canvas particle network
    ============================================================ */
 
-class SpectrumMesh {
+class HologramPlexus {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) return;
         this.ctx = this.canvas.getContext('2d', { alpha: true });
         
-        // Settings
-        this.fov = 300;
-        this.gridSize = 25; // Space between points
-        this.cols = 40;
-        this.rows = 40;
-        this.speed = 1.2;
-        this.heightMapMultiplier = 60;
+        this.particles = [];
+        this.particleCount = 120; // Number of floating nodes
+        this.connectionDistance = 140; // Max distance to draw a line
+        this.mouseRadius = 150; // Interaction radius
         
-        this.time = 0;
-        this.mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+        this.mouse = { x: null, y: null, isActive: false };
         this.width = 0;
         this.height = 0;
-        this.cx = 0;
-        this.cy = 0;
         
         this.init();
         this.bindEvents();
@@ -31,6 +25,7 @@ class SpectrumMesh {
     
     init() {
         this.resize();
+        this.createParticles();
     }
     
     resize() {
@@ -44,124 +39,134 @@ class SpectrumMesh {
         
         this.ctx.scale(dpr, dpr);
         
-        this.cx = this.width / 2;
-        this.cy = this.height / 2 + 100; // Move center down a bit
+        // Adjust particle count for smaller screens to keep performance high
+        if (this.width < 768) {
+            this.particleCount = 50;
+            this.connectionDistance = 100;
+        } else {
+            this.particleCount = 120;
+            this.connectionDistance = 150;
+        }
+        
+        this.createParticles();
     }
     
     bindEvents() {
         window.addEventListener('resize', () => this.resize());
+        
         window.addEventListener('mousemove', (e) => {
-            // Normalized mouse position -1 to 1
-            this.mouse.targetX = (e.clientX / this.width) * 2 - 1;
-            this.mouse.targetY = (e.clientY / this.height) * 2 - 1;
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+            this.mouse.isActive = true;
         });
         
-        // Touch support for mobile
+        window.addEventListener('mouseout', () => {
+            this.mouse.isActive = false;
+        });
+        
+        // Touch support
         window.addEventListener('touchmove', (e) => {
             if (e.touches.length > 0) {
-                this.mouse.targetX = (e.touches[0].clientX / this.width) * 2 - 1;
-                this.mouse.targetY = (e.touches[0].clientY / this.height) * 2 - 1;
+                this.mouse.x = e.touches[0].clientX;
+                this.mouse.y = e.touches[0].clientY;
+                this.mouse.isActive = true;
             }
+        });
+        window.addEventListener('touchend', () => {
+            this.mouse.isActive = false;
         });
     }
     
-    project(x, y, z) {
-        const scale = this.fov / (this.fov + z);
-        return {
-            x: this.cx + x * scale,
-            y: this.cy + y * scale,
-            scale: scale
-        };
+    createParticles() {
+        this.particles = [];
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        const rgb = isDark ? '139, 92, 246' : '109, 40, 217'; // Lila / Purple base
+        
+        for (let i = 0; i < this.particleCount; i++) {
+            const size = Math.random() * 2.5 + 0.5; // Random size for depth
+            this.particles.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
+                size: size,
+                baseX: 0,
+                baseY: 0,
+                color: rgb,
+                // Simulate 3D depth by dimming smaller particles
+                opacity: size / 3
+            });
+        }
     }
     
-    // Smooth noise function
-    getNoise(x, z, t) {
-        // Combines multiple sine waves for organic terrain
-        const n1 = Math.sin(x * 0.05 + t) * Math.cos(z * 0.05 + t);
-        const n2 = Math.sin(x * 0.1 - t * 0.5) * Math.cos(z * 0.1 + t * 0.8);
-        return (n1 + n2 * 0.5) * this.heightMapMultiplier;
+    drawParticle(p) {
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(${p.color}, ${p.opacity})`;
+        this.ctx.fill();
+        
+        // Glow effect for larger particles
+        if (p.size > 2) {
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowColor = `rgba(${p.color}, 0.8)`;
+        } else {
+            this.ctx.shadowBlur = 0;
+        }
     }
     
     animate() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         
-        this.time += 0.015 * this.speed;
-        
-        // Smooth mouse interpolation (easing)
-        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.05;
-        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.05;
-        
-        // Theme color parsing
-        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-        // Base color: Lila/Purple
-        const baseColor = isDark ? [139, 92, 246] : [109, 40, 217]; // #8B5CF6 / #6D28D9
-        
-        // We will generate the grid points
-        const points = [];
-        
-        const startX = -this.cols * this.gridSize / 2;
-        const startZ = 0;
-        
-        // Dynamic camera offset based on mouse
-        const camX = this.mouse.x * 200;
-        const camY = 150 + this.mouse.y * 50; 
-        
-        for (let z = 0; z < this.rows; z++) {
-            const zRow = [];
-            for (let x = 0; x < this.cols; x++) {
-                const worldX = startX + x * this.gridSize;
-                const worldZ = startZ + z * this.gridSize;
+        // Update and draw particles
+        for (let i = 0; i < this.particleCount; i++) {
+            let p = this.particles[i];
+            
+            // Movement
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            // Bounce off edges smoothly
+            if (p.x < 0 || p.x > this.width) p.vx *= -1;
+            if (p.y < 0 || p.y > this.height) p.vy *= -1;
+            
+            // Mouse Interaction (Holographic distortion)
+            if (this.mouse.isActive) {
+                const dx = this.mouse.x - p.x;
+                const dy = this.mouse.y - p.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                // Calculate moving effect by offsetting the noise sample coordinates
-                const sampleZ = worldZ - (this.time * 100); 
-                
-                // Height based on noise
-                const worldY = this.getNoise(worldX, sampleZ, this.time);
-                
-                // Transform to camera space
-                const tx = worldX - camX;
-                const ty = worldY + camY;
-                const tz = worldZ;
-                
-                // Project to 2D screen
-                const proj = this.project(tx, ty, tz);
-                
-                zRow.push({
-                    sx: proj.x,
-                    sy: proj.y,
-                    z: tz
-                });
+                if (distance < this.mouseRadius) {
+                    // Push particles away (magnetic effect)
+                    const forceDirectionX = dx / distance;
+                    const forceDirectionY = dy / distance;
+                    const force = (this.mouseRadius - distance) / this.mouseRadius;
+                    
+                    p.x -= forceDirectionX * force * 3;
+                    p.y -= forceDirectionY * force * 3;
+                }
             }
-            points.push(zRow);
-        }
-        
-        // Draw the mesh
-        this.ctx.lineWidth = 1.5;
-        
-        for (let z = 0; z < this.rows - 1; z++) {
-            for (let x = 0; x < this.cols - 1; x++) {
-                const p = points[z][x];
-                const right = points[z][x + 1];
-                const bottom = points[z + 1][x];
+            
+            this.drawParticle(p);
+            
+            // Draw connecting lines
+            for (let j = i + 1; j < this.particleCount; j++) {
+                let p2 = this.particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                // Calculate depth-based opacity (fade out in the distance)
-                const maxZ = this.rows * this.gridSize;
-                const alpha = Math.max(0, 1 - (p.z / maxZ));
-                // Add a glowing trail effect based on mouse distance
-                
-                // Draw horizontal line
-                this.ctx.beginPath();
-                this.ctx.moveTo(p.sx, p.sy);
-                this.ctx.lineTo(right.sx, right.sy);
-                this.ctx.strokeStyle = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha * 0.4})`;
-                this.ctx.stroke();
-                
-                // Draw vertical line
-                this.ctx.beginPath();
-                this.ctx.moveTo(p.sx, p.sy);
-                this.ctx.lineTo(bottom.sx, bottom.sy);
-                this.ctx.strokeStyle = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${alpha * 0.4})`;
-                this.ctx.stroke();
+                if (distance < this.connectionDistance) {
+                    // Calculate opacity based on distance
+                    const opacity = 1 - (distance / this.connectionDistance);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p.x, p.y);
+                    this.ctx.lineTo(p2.x, p2.y);
+                    // Line color blends the particles
+                    this.ctx.strokeStyle = `rgba(${p.color}, ${opacity * 0.4})`;
+                    this.ctx.lineWidth = 0.8;
+                    this.ctx.stroke();
+                }
             }
         }
         
@@ -171,5 +176,5 @@ class SpectrumMesh {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new SpectrumMesh('particles-canvas');
+    new HologramPlexus('particles-canvas');
 });

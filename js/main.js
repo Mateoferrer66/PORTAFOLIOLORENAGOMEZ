@@ -428,12 +428,54 @@ class WhatsAppButton {
     }
 }
 
+// ── Custom Cursor ──────────────────────────────────────────
+class CustomCursor {
+    constructor() {
+        this.dot = document.getElementById('cursor-dot');
+        this.outline = document.getElementById('cursor-outline');
+        
+        if (!this.dot || !this.outline) return;
+
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Instant dot
+            this.dot.style.left = `${posX}px`;
+            this.dot.style.top = `${posY}px`;
+
+            // Delayed outline
+            this.outline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects
+        const interactives = document.querySelectorAll('a, button, input, textarea, .nav-link, .filter-btn, .portfolio-item');
+        
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+            });
+        });
+    }
+}
+
 // ── Initialize Everything ───────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     // Body loading state
     document.body.classList.add('loading');
 
     // Core systems
+    new CustomCursor();
     new Preloader();
     new Navigation();
     new ThemeToggle();
